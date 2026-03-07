@@ -31,8 +31,8 @@ export default function AppSidebar() {
           </div>
           {!collapsed && (
             <div>
-              <h2 className="text-base font-bold text-sidebar-primary-foreground">SP Energy</h2>
-              <p className="text-xs text-sidebar-foreground/60">Coach</p>
+              <h2 className="text-base font-bold text-sidebar-primary-foreground">SaveMyBill</h2>
+              <p className="text-xs text-sidebar-foreground/60">Caden Toh</p>
             </div>
           )}
         </div>
