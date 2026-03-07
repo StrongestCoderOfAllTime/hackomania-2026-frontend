@@ -67,10 +67,10 @@ export default function Coach() {
         <p className="text-muted-foreground mt-1">Your personal AI guide to sustainable energy habits</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chat */}
         <div className="lg:col-span-2">
-          <Card className="shadow-card flex flex-col" style={{ height: "500px" }}>
+          <Card className="shadow-card flex flex-col" style={{ height: "750px" }}>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Bot className="h-5 w-5 text-primary" />
@@ -134,54 +134,6 @@ export default function Coach() {
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Sidebar content */}
-        <div className="space-y-4">
-          {/* Daily tip */}
-          <Card className="shadow-card border-l-4 border-l-energy-green">
-            <CardContent className="p-4">
-              <p className="text-sm font-semibold text-energy-green mb-1">💡 Daily Tip</p>
-              <p className="text-base">{energyTips[0].tip}</p>
-              <p className="text-sm text-energy-green font-medium mt-1">Save {energyTips[0].savings}</p>
-            </CardContent>
-          </Card>
-
-          {/* Neighbourhood */}
-          <Card className="shadow-card">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                Neighbourhood Ranking
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">Top {neighbourhood.percentile}%</p>
-              <p className="text-sm text-muted-foreground">You use less than {100 - neighbourhood.percentile}% of neighbours</p>
-            </CardContent>
-          </Card>
-
-          {/* Challenges */}
-          <Card className="shadow-card">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Trophy className="h-4 w-4" />
-                Weekly Challenges
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {weeklyChallenges.map((c) => (
-                <div key={c.id} className="space-y-1.5">
-                  <div className="flex justify-between text-sm">
-                    <span className="font-medium">{c.title}</span>
-                    <span className="text-muted-foreground">{c.daysLeft}d left</span>
-                  </div>
-                  <Progress value={c.progress} className="h-2" />
-                  <p className="text-xs text-muted-foreground">Reward: {c.reward}</p>
-                </div>
-              ))}
             </CardContent>
           </Card>
         </div>
