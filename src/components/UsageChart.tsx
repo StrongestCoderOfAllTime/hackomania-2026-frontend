@@ -16,11 +16,10 @@ export default function UsageChart() {
             <button
               key={v}
               onClick={() => setView(v)}
-              className={`px-3 py-1 text-xs rounded-md transition-all ${
-                view === v
-                  ? "bg-background shadow-sm font-medium"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-3 py-1 text-xs rounded-md transition-all ${view === v
+                ? "bg-background shadow-sm font-medium"
+                : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               {v.charAt(0).toUpperCase() + v.slice(1)}
             </button>
@@ -30,44 +29,44 @@ export default function UsageChart() {
       <CardContent>
         <div className="h-[300px] md:h-[350px] mt-4">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 20, right: 65, left: 0, bottom: 0 }}>
+            <BarChart data={data} margin={{ top: 20, right: 110, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
-              <XAxis 
-                dataKey="label" 
-                tick={{ fontSize: 12 }} 
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
               />
-              <YAxis 
-                tick={{ fontSize: 12 }} 
-                unit=" kWh" 
+              <YAxis
+                tick={{ fontSize: 12 }}
+                unit=" kWh"
                 axisLine={false}
                 tickLine={false}
-                domain={[10, 'auto']}
+                domain={[view === "yearly" ? 250 : 10, 'auto']}
               />
-              <Tooltip 
+              <Tooltip
                 cursor={{ fill: 'hsl(var(--muted))', opacity: 0.4 }}
                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
               />
-              <ReferenceLine 
-                y={benchmark} 
-                stroke="#94a3b8" 
+              <ReferenceLine
+                y={benchmark}
+                stroke="#94a3b8"
                 strokeDasharray="5 5"
                 strokeWidth={2}
               >
-                <Label 
-                  value="Average" 
-                  position="right" 
-                  fill="#94a3b8" 
-                  fontSize={12} 
-                  fontWeight="bold" 
+                <Label
+                  value="National Average"
+                  position="right"
+                  fill="#94a3b8"
+                  fontSize={12}
+                  fontWeight="bold"
                 />
               </ReferenceLine>
-              <Bar 
-                dataKey="kwh" 
-                name="Usage" 
-                fill="hsl(var(--primary))" 
-                radius={[4, 4, 0, 0]} 
+              <Bar
+                dataKey="kwh"
+                name="Usage"
+                fill="hsl(var(--primary))"
+                radius={[4, 4, 0, 0]}
                 barSize={view === "monthly" ? 10 : 40}
               />
             </BarChart>

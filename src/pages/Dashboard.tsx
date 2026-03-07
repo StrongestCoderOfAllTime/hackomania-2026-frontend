@@ -73,22 +73,6 @@ export default function Dashboard() {
         </div>
         <EnergyScoreGauge score={score} />
       </div>
-
-      {/* Appliance + Tips */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ApplianceBreakdown data={appliances} />
-        <div className="space-y-3">
-          <h3 className="text-lg font-semibold">Quick Actions</h3>
-          {energyTips.slice(0, 4).map((t, i) => (
-            <EnergyTipCard
-              key={i}
-              tip={t.tip}
-              savings={t.savings}
-              onSimulate={() => navigate("/simulator")}
-            />
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
