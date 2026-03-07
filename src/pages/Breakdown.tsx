@@ -39,44 +39,14 @@ export default function Breakdown() {
             <ApplianceBreakdown data={appliances} />
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle className="text-lg">Hourly Usage Pattern</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">Optimisation Tips</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={hourlyData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 15%, 90%)" />
-                      <XAxis dataKey="hour" tick={{ fontSize: 13 }} label={{ value: "Hour", position: "bottom", offset: -8 }} />
-                      <YAxis tick={{ fontSize: 11 }} unit=" kWh" />
-                      <Tooltip
-                        contentStyle={{ borderRadius: 8, border: "1px solid hsl(223, 86%, 11%)" }}
-                        formatter={(value: number) => [`${value} kWh`, "Usage"]}
-                        labelFormatter={(hour: number) => `${hour}:00`}
-                      />
-                      <ReferenceLine y={0.5} stroke="hsl(220, 70%, 45%)" strokeDasharray="5 5" />
-                      <Bar dataKey="kwh" fill="hsl(220, 70%, 45%)" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">* Average Singaporean Household's Hourly Electrical Usage</p>
+              <CardContent className="space-y-3">
+                {energyTips.slice(0, 3).map((t, i) => (
+                  <EnergyTipCard key={i} tip={t.tip} savings={t.savings} />
+                ))}
               </CardContent>
             </Card>
-          </div>
-
-          {/* Appliance detail cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {appliances.map((a) => (
-              <Card key={a.name} className="shadow-card">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: a.color }} />
-                    <h4 className="font-semibold">{a.name}</h4>
-                  </div>
-                  <p className="text-2xl font-bold">{a.kwh} kWh</p>
-                  <p className="text-sm text-muted-foreground">{a.percentage}% of total usage</p>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </TabsContent>
 
