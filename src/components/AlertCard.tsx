@@ -1,12 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Clock, DollarSign } from "lucide-react";
+import { AlertTriangle, Clock, DollarSign, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Alert } from "@/lib/energyData";
 
 interface AlertCardProps {
   alert: Alert;
+  onResolve?: () => void;
+  onMinimize?: () => void;
 }
 
-export default function AlertCard({ alert }: AlertCardProps) {
+export default function AlertCard({ alert, onResolve, onMinimize }: AlertCardProps) {
   return (
     <Card className="shadow-card border-l-4 border-l-energy-red">
       <CardHeader className="pb-2">
@@ -20,6 +23,30 @@ export default function AlertCard({ alert }: AlertCardProps) {
               <Clock className="h-3.5 w-3.5" />
               {alert.timestamp}
             </div>
+          </div>
+          <div className="flex gap-2">
+            {onResolve && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onResolve}
+                className="text-energy-green border-energy-green hover:bg-energy-green/10"
+              >
+                <Check className="h-4 w-4 mr-1" />
+                Resolve
+              </Button>
+            )}
+            {onMinimize && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onMinimize}
+                className="text-muted-foreground border-muted-foreground hover:bg-muted"
+              >
+                <X className="h-4 w-4 mr-1" />
+                Dismiss
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>

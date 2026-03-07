@@ -25,6 +25,7 @@ export interface Alert {
   timestamp: string;
   estimatedWaste: number;
   suggestions: string[];
+  resolved: boolean;
 }
 
 export interface UserProfile {
@@ -103,6 +104,7 @@ export function getAlerts(): Alert[] {
         "Inspect water heater timer settings",
         "Unplug standby electronics before sleeping",
       ],
+      resolved: false,
     },
     {
       id: "2",
@@ -116,6 +118,7 @@ export function getAlerts(): Alert[] {
         "Pre-cool your home before peak hours",
         "Use a timer for your water heater",
       ],
+      resolved: false,
     },
     {
       id: "3",
@@ -129,6 +132,7 @@ export function getAlerts(): Alert[] {
         "Clean your AC filter for better cooling",
         "Use a fan alongside your AC to circulate air",
       ],
+      resolved: false,
     },
   ];
 }
@@ -200,5 +204,5 @@ export const applianceList: ApplianceUsage[] = [
   { name: "Blender", kwh: 5, percentage: 1, color: "hsl(150, 60%, 50%)", icon: "Blender" },
   { name: "Toaster", kwh: 3, percentage: 1, color: "hsl(180, 60%, 50%)", icon: "Toaster" },
   { name: "Hair Dryer", kwh: 12, percentage: 3, color: "hsl(210, 60%, 50%)", icon: "HairDryer" },
-  { name: "Lights", kwh: 1, percentage: 1, color: "hsl(200, 60%, 50%)", icon: "Lights" },
+  { name: "Lights", kwh: 1, percentage: 1, color: "hsl(210, 60%, 50%)", icon: "HairDryer" },
 ];
