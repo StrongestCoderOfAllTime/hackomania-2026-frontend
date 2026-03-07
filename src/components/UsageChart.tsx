@@ -8,7 +8,7 @@ export default function UsageChart() {
   const { data, benchmark } = getUsageData(view);
 
   return (
-    <Card className="shadow-card">
+    <Card className="border-0">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-bold">Energy Consumption</CardTitle>
         <div className="flex bg-muted rounded-lg p-1">
@@ -27,7 +27,7 @@ export default function UsageChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] md:h-[350px] mt-4">
+        <div className="h-[250px] md:h-[300px] mt-4">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 20, right: 110, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />

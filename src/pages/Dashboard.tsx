@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DashboardCard from "@/components/DashboardCard";
 import UsageChart from "@/components/UsageChart";
 import ApplianceBreakdown from "@/components/ApplianceBreakdown";
@@ -8,6 +9,8 @@ import {
   getEnergyScore, energyTips, getNeighbourhoodComparison,
 } from "@/lib/energyData";
 import { DollarSign, Zap, Users, Flame, ThumbsUp } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
 const usageData = generateDailyUsage(30);
@@ -18,6 +21,7 @@ const neighbourhood = getNeighbourhoodComparison();
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [view, setView] = useState<"appliance" | "household">("appliance");
 
   return (
     <div className="space-y-6">
@@ -69,7 +73,25 @@ export default function Dashboard() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
-          <UsageChart />
+          <Card className="shadow-card">
+            <Tabs value={view} onValueChange={(v) => setView(v as any)}>
+              <TabsList className="grid w-full max-w-md grid-cols-2 mt-4 ml-4">
+                <TabsTrigger value="appliance">By Appliance</TabsTrigger>
+                <TabsTrigger value="household">Whole Household</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="appliance">
+                <div className="">
+                  <ApplianceBreakdown data={appliances} />
+                </div>
+              </TabsContent>
+              <TabsContent value="household">
+                <div className="">
+                  <UsageChart />
+                </div>
+              </TabsContent>
+            </Tabs>
+          </Card>
         </div>
         <EnergyScoreGauge score={score} />
       </div>
