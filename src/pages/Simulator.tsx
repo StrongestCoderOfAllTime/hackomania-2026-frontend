@@ -76,36 +76,13 @@ export default function Simulator() {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-6 h-full">
+      <div className="flex flex-col gap-6 h-full">
 
-        {/* Results */}
-        <div className="h-full">
-          {/* Before vs After */}
-          <div className="flex flex-col gap-4 items-center h-full">
-            <Card className="shadow-card w-full flex-1 flex flex-col justify-center border-l-4 border-l-energy-red">
-              <CardContent className="p-4 text-center">
-                <p className="text-md text-muted-foreground">Current Bill</p>
-                <p className="text-2xl font-bold text-energy-red">${BASELINE.bill.toFixed(2)}</p>
-                <p className="text-md text-muted-foreground">{BASELINE.kwh} kWh</p>
-              </CardContent>
-            </Card>
-            <div className="flex-shrink-0">
-              <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
-            </div>
-            <Card className="shadow-card border-l-4 border-l-energy-green w-full flex-1 flex flex-col justify-center">
-              <CardContent className="p-4 text-center">
-                <p className="text-md text-muted-foreground">New Bill</p>
-                <p className="text-2xl font-bold text-energy-green">${result.newBill.toFixed(2)}</p>
-                <p className="text-md text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        {/* Before vs After & Potential Savings*/}
+        <div className="flex flex-row gap-4 items-stretch">
 
-        {/* Potential Savings & Controls */}
-        <div className="space-y-4">
-          {/* Potential Savings Summary */}
-          <Card className="shadow-card bg-white">
+          {/* Potential Savings (2/3 width) */}
+          <Card className="shadow-card bg-white w-2/3">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold mb-4 text-black">Your Potential Savings</h3>
               <div className="space-y-3">
@@ -139,6 +116,32 @@ export default function Simulator() {
             </CardContent>
           </Card>
 
+          {/* Before vs After (1/3 width) */}
+          <div className="flex flex-row gap-2 w-1/3 flex-shrink-0">
+            <Card className="shadow-card flex-1 flex flex-col justify-center border-b-4 border-b-energy-red">
+              <CardContent className="p-4 text-center">
+                <p className="text-md text-muted-foreground leading-tight">Current Bill</p>
+                <p className="text-2xl font-bold text-energy-red">${BASELINE.bill.toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">{BASELINE.kwh} kWh</p>
+              </CardContent>
+            </Card>
+            <div className="flex items-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <Card className="shadow-card flex-1 flex flex-col justify-center border-b-4 border-b-energy-green">
+              <CardContent className="p-4 text-center">
+                <p className="text-md text-muted-foreground leading-tight">New Bill</p>
+                <p className="text-2xl font-bold text-energy-green">${result.newBill.toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Potential Savings & Controls */}
+        <div className="space-y-4">
+
+          {/* Slider */}
           <Card className="shadow-card">
             <CardHeader>
               <CardTitle className="text-lg">Adjust Your Habits</CardTitle>
