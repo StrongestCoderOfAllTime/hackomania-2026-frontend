@@ -5,6 +5,7 @@ export interface DailyUsage {
   totalKwh: number;
   peakKwh: number;
   offPeakKwh: number;
+  streak: number;
   cost: number;
   status: "green" | "yellow" | "red";
 }
@@ -62,6 +63,9 @@ export function generateDailyUsage(days: number = 30): DailyUsage[] {
     const offPeakKwh = Math.round((totalKwh - peakKwh) * 100) / 100;
     const cost = Math.round(totalKwh * RATE_PER_KWH * 100) / 100;
 
+    // Add Daily Streak
+    const streak = 12;
+
     let status: "green" | "yellow" | "red" = "green";
     if (totalKwh > 22) status = "red";
     else if (totalKwh > 18) status = "yellow";
@@ -72,6 +76,7 @@ export function generateDailyUsage(days: number = 30): DailyUsage[] {
       peakKwh,
       offPeakKwh,
       cost,
+      streak,
       status,
     });
   }
