@@ -1,5 +1,5 @@
 import {
-  LayoutDashboard, PieChart, Sliders, Bell, Bot, User, Zap,
+  LayoutDashboard, PieChart, Sliders, Bell, Bot, User, Zap, Clock,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -14,6 +14,7 @@ const items = [
   { title: "Energy Twin", url: "/simulator", icon: Sliders },
   { title: "Smart Alerts", url: "/alerts", icon: Bell },
   { title: "Energy Coach", url: "/coach", icon: Bot },
+  { title: "Appliance Timer", url: "/timer", icon: Clock },
   { title: "Profile", url: "/profile", icon: User },
 ];
 

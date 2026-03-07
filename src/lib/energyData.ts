@@ -186,3 +186,19 @@ export const weeklyChallenges = [
   { id: "2", title: "Run laundry only off-peak for 7 days", progress: 40, reward: "🌙 Night Owl Badge", daysLeft: 5 },
   { id: "3", title: "Keep AC at 25°C for a week", progress: 85, reward: "❄️ Cool Saver Badge", daysLeft: 1 },
 ];
+
+export const applianceList: ApplianceUsage[] = [
+  { name: "Refrigerator", kwh: 75, percentage: 16, color: "hsl(220, 70%, 45%)", icon: "Refrigerator" },
+  { name: "Air Conditioner", kwh: 180, percentage: 38, color: "hsl(0, 72%, 51%)", icon: "Snowflake" },
+  { name: "Washing Machine", kwh: 55, percentage: 12, color: "hsl(175, 60%, 42%)", icon: "WashingMachine" },
+  { name: "Water Heater", kwh: 95, percentage: 20, color: "hsl(45, 93%, 47%)", icon: "Flame" },
+  { name: "Television", kwh: 25, percentage: 5, color: "hsl(280, 60%, 50%)", icon: "Monitor" },
+  { name: "Computer/Laptop", kwh: 20, percentage: 4, color: "hsl(120, 60%, 50%)", icon: "Laptop" },
+  { name: "Microwave", kwh: 15, percentage: 3, color: "hsl(30, 70%, 50%)", icon: "Microwave" },
+  { name: "Fan", kwh: 10, percentage: 2, color: "hsl(60, 70%, 50%)", icon: "Fan" },
+  { name: "Vacuum Cleaner", kwh: 8, percentage: 2, color: "hsl(90, 60%, 50%)", icon: "Vacuum" },
+  { name: "Blender", kwh: 5, percentage: 1, color: "hsl(150, 60%, 50%)", icon: "Blender" },
+  { name: "Toaster", kwh: 3, percentage: 1, color: "hsl(180, 60%, 50%)", icon: "Toaster" },
+  { name: "Hair Dryer", kwh: 12, percentage: 3, color: "hsl(210, 60%, 50%)", icon: "HairDryer" },
+  { name: "Lights", kwh: 1, percentage: 1, color: "hsl(200, 60%, 50%)", icon: "Lights" },
+];
