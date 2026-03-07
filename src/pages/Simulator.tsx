@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import EnergyTipCard from "@/components/EnergyTipCard";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Thermometer, Clock, Plug, Flame, ArrowRight, Zap, DollarSign, Leaf, Lightbulb } from "lucide-react";
+import { getApplianceBreakdown, getHourlyPattern, energyTips } from "@/lib/energyData";
 
 interface SimSettings {
   acTemp: number;
@@ -68,44 +70,21 @@ export default function Simulator() {
   const result = calculate(settings);
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col h-[calc(100vh-140px)] space-y-6 overflow-hidden">
       {/* Header */}
       <div>
         <h1 className="text-2xl md:text-3xl font-bold">Energy Twin Simulator</h1>
         <p className="text-muted-foreground mt-1">See how changes in habits affect your bill</p>
       </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-6 h-full">
+      {/* Main Content Area */}
+      <div className="flex flex-col gap-6 flex-1 min-h-0">
 
-        {/* Results */}
-        <div className="h-full">
-          {/* Before vs After */}
-          <div className="flex flex-col gap-4 items-center h-full">
-            <Card className="shadow-card w-full flex-1 flex flex-col justify-center border-l-4 border-l-energy-red">
-              <CardContent className="p-4 text-center">
-                <p className="text-md text-muted-foreground">Current Bill</p>
-                <p className="text-2xl font-bold text-energy-red">${BASELINE.bill.toFixed(2)}</p>
-                <p className="text-md text-muted-foreground">{BASELINE.kwh} kWh</p>
-              </CardContent>
-            </Card>
-            <div className="flex-shrink-0">
-              <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
-            </div>
-            <Card className="shadow-card border-l-4 border-l-energy-green w-full flex-1 flex flex-col justify-center">
-              <CardContent className="p-4 text-center">
-                <p className="text-md text-muted-foreground">New Bill</p>
-                <p className="text-2xl font-bold text-energy-green">${result.newBill.toFixed(2)}</p>
-                <p className="text-md text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        {/* Before vs After & Potential Savings*/}
+        <div className="flex flex-row gap-4 items-stretch">
 
-        {/* Potential Savings & Controls */}
-        <div className="space-y-4">
-          {/* Potential Savings Summary */}
-          <Card className="shadow-card bg-white">
+          {/* Potential Savings (2/3 width) */}
+          <Card className="shadow-card bg-white w-2/3">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold mb-4 text-black">Your Potential Savings</h3>
               <div className="space-y-3">
@@ -139,11 +118,54 @@ export default function Simulator() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-card">
-            <CardHeader>
+          {/* Before vs After (1/3 width) */}
+          <div className="flex flex-row gap-2 w-1/3 flex-shrink-0">
+            <Card className="shadow-card flex-1 flex flex-col justify-center border-b-4 border-b-energy-red">
+              <CardContent className="p-4 text-center">
+                <p className="text-md text-muted-foreground leading-tight">Current Bill</p>
+                <p className="text-2xl font-bold text-energy-red">${BASELINE.bill.toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">{BASELINE.kwh} kWh</p>
+              </CardContent>
+            </Card>
+            <div className="flex items-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <Card className="shadow-card flex-1 flex flex-col justify-center border-b-4 border-b-energy-green">
+              <CardContent className="p-4 text-center">
+                <p className="text-md text-muted-foreground leading-tight">New Bill</p>
+                <p className="text-2xl font-bold text-energy-green">${result.newBill.toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Bottom Row: Optimisations & Habits */}
+        <div className="flex flex-row gap-4 items-stretch flex-1 min-h-0">
+
+          {/* Suggested Optimisations */}
+          <Card className="shadow-card flex flex-col flex-1 min-h-0">
+            <CardHeader className="flex-none">
+              <CardTitle className="text-lg flex items-center justify-between">
+                Optimisation Tips
+                <span className="text-md font-medium bg-muted px-3 py-1 rounded-full bg-green-100 text-green-500">
+                  {energyTips.length}
+                </span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-y-auto space-y-3 pr-2">
+              {energyTips.map((t, i) => (
+                <EnergyTipCard key={i} tip={t.tip} savings={t.savings} />
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Interactable Lifestyle Changes */}
+          <Card className="shadow-card flex flex-col w-1/2 min-h-0">
+            <CardHeader className="flex-none">
               <CardTitle className="text-lg">Adjust Your Habits</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-8">
+            <CardContent className="flex-1 overflow-y-auto space-y-8 pr-2">
               {/* Laundry */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

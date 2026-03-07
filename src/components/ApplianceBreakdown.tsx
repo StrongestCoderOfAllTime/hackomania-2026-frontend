@@ -32,7 +32,7 @@ export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
   const topThree = [...data].sort((a, b) => b.kwh - a.kwh).slice(0, 3);
 
   return (
-    <Card className="shadow-card">
+    <Card className="border-0">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           Appliance Breakdown
@@ -40,7 +40,7 @@ export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">
-          <div className="h-[320px] flex flex-col items-center">
+          <div className="h-[300px] md:h-[300px] flex flex-col items-center">
             <ResponsiveContainer width="100%" height="85%">
               <PieChart>
                 <Pie
@@ -62,14 +62,14 @@ export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
               </PieChart>
             </ResponsiveContainer>
             <div className="mt-2 w-full">
-               <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-                 {data.map((entry) => (
-                   <div key={entry.name} className="flex items-center gap-1.5">
-                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                     <span className="text-[11px] font-medium text-muted-foreground">{entry.name}</span>
-                   </div>
-                 ))}
-               </div>
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+                {data.map((entry) => (
+                  <div key={entry.name} className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                    <span className="text-[11px] font-medium text-muted-foreground">{entry.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -84,18 +84,18 @@ export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
             <div className="space-y-4">
               {topThree.map((app, index) => {
                 const Icon = IconMap[app.icon] || Plug;
-                
+
                 return (
-                  <div 
-                    key={app.name} 
+                  <div
+                    key={app.name}
                     className="flex items-center justify-between group"
                   >
                     <div className="flex items-center gap-4">
                       <div className="text-xs font-bold text-muted-foreground/50 w-4">
                         {index + 1}.
                       </div>
-                      <div 
-                        className="flex items-center justify-center w-10 h-10 rounded-lg text-white/90 shadow-sm" 
+                      <div
+                        className="flex items-center justify-center w-10 h-10 rounded-lg text-white/90 shadow-sm"
                         style={{ backgroundColor: app.color }}
                       >
                         <Icon className="w-5 h-5" />

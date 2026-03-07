@@ -10,7 +10,6 @@ import {
 
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Energy Breakdown", url: "/breakdown", icon: PieChart },
   { title: "Energy Twin", url: "/simulator", icon: Sliders },
   { title: "Smart Alerts", url: "/alerts", icon: Bell },
   { title: "Energy Coach", url: "/coach", icon: Bot },
