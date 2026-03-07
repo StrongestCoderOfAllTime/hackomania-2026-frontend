@@ -29,15 +29,6 @@ export default function EnergyTipCard({ tip, savings, onSimulate }: EnergyTipCar
               Simulate
             </Button>
           )}
-          <Button
-            variant={completed ? "default" : "outline"}
-            size="sm"
-            onClick={() => setCompleted(!completed)}
-            className="text-xs"
-          >
-            {completed ? <Check className="h-3 w-3 mr-1" /> : null}
-            {completed ? "Done" : "Mark Done"}
-          </Button>
         </div>
       </CardContent>
     </Card>
