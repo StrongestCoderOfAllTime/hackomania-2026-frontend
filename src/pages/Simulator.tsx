@@ -39,98 +39,42 @@ export default function Simulator() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div>
         <h1 className="text-2xl md:text-3xl font-bold">Energy Twin Simulator</h1>
         <p className="text-muted-foreground mt-1">See how changes in habits affect your bill</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Controls */}
-        <Card className="shadow-card">
-          <CardHeader>
-            <CardTitle className="text-lg">Adjust Your Habits</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-8">
-            {/* AC Temperature */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Thermometer className="h-5 w-5 text-primary" />
-                <Label className="text-base font-medium">AC Temperature</Label>
-              </div>
-              <Slider
-                value={[settings.acTemp]}
-                onValueChange={([v]) => setSettings({ ...settings, acTemp: v })}
-                min={18} max={28} step={1}
-                className="w-full"
-              />
-              <p className="text-sm text-muted-foreground text-center">{settings.acTemp}°C</p>
-            </div>
-
-            {/* Laundry */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                <Label className="text-base font-medium">Off-Peak Laundry</Label>
-              </div>
-              <Switch
-                checked={settings.laundryOffPeak}
-                onCheckedChange={(v) => setSettings({ ...settings, laundryOffPeak: v })}
-              />
-            </div>
-
-            {/* Standby */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Plug className="h-5 w-5 text-primary" />
-                <Label className="text-base font-medium">Reduce Standby Devices</Label>
-              </div>
-              <Switch
-                checked={settings.standbyReduction}
-                onCheckedChange={(v) => setSettings({ ...settings, standbyReduction: v })}
-              />
-            </div>
-
-            {/* Water Heater */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Flame className="h-5 w-5 text-primary" />
-                <Label className="text-base font-medium">Water Heater Duration</Label>
-              </div>
-              <Slider
-                value={[settings.waterHeaterHours]}
-                onValueChange={([v]) => setSettings({ ...settings, waterHeaterHours: v })}
-                min={0} max={5} step={0.5}
-                className="w-full"
-              />
-              <p className="text-sm text-muted-foreground text-center">{settings.waterHeaterHours} hrs/day</p>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-6 h-full">
 
         {/* Results */}
-        <div className="space-y-4">
+        <div className="h-full">
           {/* Before vs After */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-            <Card className="shadow-card">
+          <div className="flex flex-col gap-4 items-center h-full">
+            <Card className="shadow-card w-full flex-1 flex flex-col justify-center border-l-4 border-l-energy-red">
               <CardContent className="p-4 text-center">
-                <p className="text-sm text-muted-foreground">Current Bill</p>
-                <p className="text-2xl font-bold">${BASELINE.bill.toFixed(2)}</p>
-                <p className="text-sm text-muted-foreground">{BASELINE.kwh} kWh</p>
+                <p className="text-md text-muted-foreground">Current Bill</p>
+                <p className="text-2xl font-bold text-energy-red">${BASELINE.bill.toFixed(2)}</p>
+                <p className="text-md text-muted-foreground">{BASELINE.kwh} kWh</p>
               </CardContent>
             </Card>
-            <div className="flex justify-center">
-              <ArrowRight className="h-8 w-8 text-muted-foreground" />
+            <div className="flex-shrink-0">
+              <ArrowRight className="h-8 w-8 text-muted-foreground rotate-90" />
             </div>
-            <Card className="shadow-card border-l-4 border-l-energy-green">
+            <Card className="shadow-card border-l-4 border-l-energy-green w-full flex-1 flex flex-col justify-center">
               <CardContent className="p-4 text-center">
-                <p className="text-sm text-muted-foreground">New Bill</p>
+                <p className="text-md text-muted-foreground">New Bill</p>
                 <p className="text-2xl font-bold text-energy-green">${result.newBill.toFixed(2)}</p>
-                <p className="text-sm text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
+                <p className="text-md text-muted-foreground">{BASELINE.kwh - result.kwhSaved} kWh</p>
               </CardContent>
             </Card>
           </div>
+        </div>
 
-          {/* Savings Summary */}
+        {/* Potential Savings & Controls */}
+        <div className="space-y-4">
+          {/* Potential Savings Summary */}
           <Card className="shadow-card bg-navy text-primary-foreground">
             <CardContent className="p-6">
               <h3 className="text-lg font-semibold mb-4">Your Potential Savings</h3>
@@ -150,6 +94,67 @@ export default function Simulator() {
                   <p className="text-2xl font-bold">{result.carbonSaved}</p>
                   <p className="text-xs opacity-80">kg CO₂ reduced</p>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="text-lg">Adjust Your Habits</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              {/* AC Temperature */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Thermometer className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">AC Temperature</Label>
+                </div>
+                <Slider
+                  value={[settings.acTemp]}
+                  onValueChange={([v]) => setSettings({ ...settings, acTemp: v })}
+                  min={18} max={28} step={1}
+                  className="w-full"
+                />
+                <p className="text-sm text-muted-foreground text-center">{settings.acTemp}°C</p>
+              </div>
+
+              {/* Laundry */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">Off-Peak Laundry</Label>
+                </div>
+                <Switch
+                  checked={settings.laundryOffPeak}
+                  onCheckedChange={(v) => setSettings({ ...settings, laundryOffPeak: v })}
+                />
+              </div>
+
+              {/* Standby */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Plug className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">Reduce Standby Devices</Label>
+                </div>
+                <Switch
+                  checked={settings.standbyReduction}
+                  onCheckedChange={(v) => setSettings({ ...settings, standbyReduction: v })}
+                />
+              </div>
+
+              {/* Water Heater */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Flame className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">Water Heater Duration</Label>
+                </div>
+                <Slider
+                  value={[settings.waterHeaterHours]}
+                  onValueChange={([v]) => setSettings({ ...settings, waterHeaterHours: v })}
+                  min={0} max={5} step={0.5}
+                  className="w-full"
+                />
+                <p className="text-sm text-muted-foreground text-center">{settings.waterHeaterHours} hrs/day</p>
               </div>
             </CardContent>
           </Card>
