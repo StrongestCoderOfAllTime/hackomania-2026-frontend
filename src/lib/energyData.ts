@@ -228,3 +228,87 @@ export const applianceList: ApplianceUsage[] = [
   { name: "Hair Dryer", kwh: 12, percentage: 3, color: "hsl(210, 60%, 50%)", icon: "HairDryer" },
   { name: "Lights", kwh: 1, percentage: 1, color: "hsl(210, 60%, 50%)", icon: "HairDryer" },
 ];
+
+export interface ChallengeEvent {
+  id: string;
+  name: string;
+  isCompleted: boolean;
+}
+
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  points: number;
+  duration: string;
+  category: "Daily" | "Weekly" | "Monthly";
+  events: ChallengeEvent[];
+  colorClass: string;
+  borderClass: string;
+  iconKey: string;
+}
+
+export const INITIAL_CHALLENGES: Challenge[] = [
+  {
+    id: "1",
+    title: "Off-Peak Warrior",
+    description: "Shift your heavy appliance usage to off-peak hours (10 PM - 7 AM).",
+    points: 150,
+    duration: "Daily",
+    category: "Daily",
+    colorClass: "text-blue-500",
+    borderClass: "border-l-blue-500",
+    iconKey: "clock",
+    events: [
+      { id: "1-1", name: "Run Washing Machine after 10 PM", isCompleted: false },
+      { id: "1-2", name: "Set Dishwasher to Delay Start", isCompleted: false },
+    ]
+  },
+  {
+    id: "2",
+    title: "Cool Tech Saver",
+    description: "Optimize your air conditioning usage for a week.",
+    points: 450,
+    duration: "7 Days",
+    category: "Weekly",
+    colorClass: "text-energy-yellow",
+    borderClass: "border-l-energy-yellow",
+    iconKey: "zap",
+    events: [
+      { id: "2-1", name: "Set AC to 25°C for 5 days", isCompleted: true },
+      { id: "2-2", name: "Use Fan with AC for 3 days", isCompleted: false },
+      { id: "2-3", name: "Clean AC Filters tracking", isCompleted: false },
+    ]
+  },
+  {
+    id: "3",
+    title: "Eco Guardian",
+    description: "Major reduction in overall household carbon footprint.",
+    points: 1200,
+    duration: "Monthly",
+    category: "Monthly",
+    colorClass: "text-energy-green",
+    borderClass: "border-l-energy-green",
+    iconKey: "leaf",
+    events: [
+      { id: "3-1", name: "Reduce total kWh by 15%", isCompleted: false },
+      { id: "3-2", name: "Zero peak-hour alerts for 30 days", isCompleted: false },
+      { id: "3-3", name: "Identify 3 standby energy leaks", isCompleted: true },
+    ]
+  },
+  {
+    id: "4",
+    title: "Standby Slayer",
+    description: "Eliminate idle power consumption across all rooms.",
+    points: 200,
+    duration: "Daily",
+    category: "Daily",
+    colorClass: "text-energy-red",
+    borderClass: "border-l-energy-red",
+    iconKey: "flame",
+    events: [
+      { id: "4-1", name: "Unplug TV & Console at night", isCompleted: false },
+      { id: "4-2", name: "Switch off all wall sockets before bed", isCompleted: false },
+    ]
+  }
+];
