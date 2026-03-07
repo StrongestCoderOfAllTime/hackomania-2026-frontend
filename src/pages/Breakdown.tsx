@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ApplianceBreakdown from "@/components/ApplianceBreakdown";
 import EnergyTipCard from "@/components/EnergyTipCard";
-import HouseholdCard from "@/components/HouseholdCard";
 import UsageChart from "@/components/UsageChart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
