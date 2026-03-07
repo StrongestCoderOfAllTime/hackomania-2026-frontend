@@ -40,7 +40,7 @@ export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">
-          <div className="h-[320px] flex flex-col items-center">
+          <div className="h-[300px] md:h-[300px] flex flex-col items-center">
             <ResponsiveContainer width="100%" height="85%">
               <PieChart>
                 <Pie
