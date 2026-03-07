@@ -323,3 +323,6 @@ export const INITIAL_CHALLENGES: Challenge[] = [
     ]
   }
 ];
+
+export const experiencePoints = 2450;
+export const experienceLevel = 12;

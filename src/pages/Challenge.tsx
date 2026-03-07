@@ -17,15 +17,15 @@ import {
   Target,
   ChevronRight
 } from "lucide-react";
-import type { Challenge, ChallengeEvent } from '@/lib/energyData';
-import { INITIAL_CHALLENGES } from '@/lib/energyData';
+import type { Challenge } from '@/lib/energyData';
+import { INITIAL_CHALLENGES, experienceLevel, experiencePoints } from '@/lib/energyData';
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export default function Challenge() {
   const [challenges, setChallenges] = useState<Challenge[]>(INITIAL_CHALLENGES);
-  const [points, setPoints] = useState(2450);
-  const [level, setLevel] = useState(12);
+  const [points, setPoints] = useState(experiencePoints);
+  const [level, setLevel] = useState(experienceLevel);
 
   const toggleEvent = (challengeId: string, eventId: string) => {
     setChallenges(prev => prev.map(c => {
