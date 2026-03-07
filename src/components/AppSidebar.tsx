@@ -1,5 +1,5 @@
 import {
-  LayoutDashboard, PieChart, Sliders, Bell, Bot, User, Zap, Clock, BicepsFlexed
+  LayoutDashboard, PieChart, Sliders, Bell, Bot, User, Zap, Clock, BicepsFlexed, Sparkles
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
 
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "My Mascot", url: "/mascot", icon: Sparkles },
   { title: "Energy Twin", url: "/simulator", icon: Sliders },
   { title: "Smart Alerts", url: "/alerts", icon: Bell },
   { title: "Energy Coach", url: "/coach", icon: Bot },
