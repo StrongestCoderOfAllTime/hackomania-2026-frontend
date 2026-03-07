@@ -3,11 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Thermometer, Clock, Plug, Flame, ArrowRight, Zap, DollarSign, Leaf } from "lucide-react";
+import { Thermometer, Clock, Plug, Flame, ArrowRight, Zap, DollarSign, Leaf, Lightbulb } from "lucide-react";
 
 interface SimSettings {
   acTemp: number;
   laundryOffPeak: boolean;
+  lightOff: boolean;
   standbyReduction: boolean;
   waterHeaterHours: number;
 }
@@ -17,6 +18,7 @@ const BASELINE = { bill: 155.20, kwh: 473, carbon: 236.5 };
 function calculate(s: SimSettings) {
   let savings = 0;
   if (s.acTemp >= 25) savings += (s.acTemp - 22) * 3.2;
+  if (s.lightOff) savings += 5.0;
   if (s.laundryOffPeak) savings += 8.5;
   if (s.standbyReduction) savings += 4.8;
   savings += Math.max(0, 2 - s.waterHeaterHours) * 5.6;
@@ -27,11 +29,39 @@ function calculate(s: SimSettings) {
   return { newBill, savings: Math.round(savings * 100) / 100, kwhSaved, carbonSaved };
 }
 
+function generateCompliment(metric: string, value: number) {
+  if (value <= 0) return "";
+
+  if (metric === "cost") {
+    if (value < 5) return `That's about ${Math.floor(value / 1.5)} cups of Kopi! ☕️`;
+    if (value < 10) return "You've saved the cost of a McDonald's meal! 🍔";
+    if (value < 20) return "That's a free movie ticket saved! 🎟️";
+    if (value < 50) return "You've saved a week's worth of public transport! 🚌";
+    return "That's a fancy weekend brunch saved! 🍳";
+  }
+
+  if (metric === "carbonEmission") {
+    if (value < 5) return "Equivalent to charging your phone for a year! 📱";
+    if (value < 15) return "As much CO₂ as a newly planted tree absorbs! 🌳";
+    if (value < 30) return "Saved emissions from a 100km car drive! 🚗";
+    return "Equivalent to saving 1,000 plastic bottles! ♻️";
+  }
+
+  if (metric === "electricityConsumption") {
+    if (value < 10) return "Enough to run your fridge for 5 days! ❄️";
+    if (value < 25) return "That's 100 hours of TV time saved! 📺";
+    if (value < 50) return "Equal to 20 loads of laundry! 👕";
+    return "Enough power for an average home for 4 days! 🏠";
+  }
+  return "";
+}
+
 export default function Simulator() {
   const [settings, setSettings] = useState<SimSettings>({
     acTemp: 22,
     laundryOffPeak: false,
     standbyReduction: false,
+    lightOff: false,
     waterHeaterHours: 3,
   });
 
@@ -75,24 +105,35 @@ export default function Simulator() {
         {/* Potential Savings & Controls */}
         <div className="space-y-4">
           {/* Potential Savings Summary */}
-          <Card className="shadow-card bg-navy text-primary-foreground">
+          <Card className="shadow-card bg-white">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Your Potential Savings</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <DollarSign className="h-6 w-6 mx-auto mb-1 text-teal" />
-                  <p className="text-2xl font-bold">${result.savings.toFixed(2)}</p>
-                  <p className="text-xs opacity-80">Cost saved/month</p>
+              <h3 className="text-lg font-semibold mb-4 text-black">Your Potential Savings</h3>
+              <div className="space-y-3">
+                <div className="flex flex-col gap-1">
+                  <p className="text-base text-black">
+                    💰 You have saved <span className="text-2xl font-bold text-teal">${result.savings.toFixed(2)}</span> this month
+                  </p>
+                  <p className="text-sm text-muted-foreground italic ml-7">
+                    {generateCompliment("cost", result.savings)}
+                  </p>
                 </div>
-                <div className="text-center">
-                  <Zap className="h-6 w-6 mx-auto mb-1 text-energy-yellow" />
-                  <p className="text-2xl font-bold">{result.kwhSaved}</p>
-                  <p className="text-xs opacity-80">kWh saved/month</p>
+
+                <div className="flex flex-col gap-1">
+                  <p className="text-base text-black">
+                    ⚡️ You have reduced your consumption by <span className="text-2xl font-bold text-energy-yellow">{result.kwhSaved}</span> kWh this month
+                  </p>
+                  <p className="text-sm text-muted-foreground italic ml-7">
+                    {generateCompliment("electricityConsumption", result.kwhSaved)}
+                  </p>
                 </div>
-                <div className="text-center">
-                  <Leaf className="h-6 w-6 mx-auto mb-1 text-energy-green" />
-                  <p className="text-2xl font-bold">{result.carbonSaved}</p>
-                  <p className="text-xs opacity-80">kg CO₂ reduced</p>
+
+                <div className="flex flex-col gap-1">
+                  <p className="text-base text-black">
+                    🌱 You have prevented <span className="text-2xl font-bold text-energy-green">{result.carbonSaved}</span> kg of CO₂ emissions
+                  </p>
+                  <p className="text-sm text-muted-foreground italic ml-7">
+                    {generateCompliment("carbonEmission", result.carbonSaved)}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -103,21 +144,6 @@ export default function Simulator() {
               <CardTitle className="text-lg">Adjust Your Habits</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              {/* AC Temperature */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Thermometer className="h-5 w-5 text-primary" />
-                  <Label className="text-base font-medium">AC Temperature</Label>
-                </div>
-                <Slider
-                  value={[settings.acTemp]}
-                  onValueChange={([v]) => setSettings({ ...settings, acTemp: v })}
-                  min={18} max={28} step={1}
-                  className="w-full"
-                />
-                <p className="text-sm text-muted-foreground text-center">{settings.acTemp}°C</p>
-              </div>
-
               {/* Laundry */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -140,6 +166,33 @@ export default function Simulator() {
                   checked={settings.standbyReduction}
                   onCheckedChange={(v) => setSettings({ ...settings, standbyReduction: v })}
                 />
+              </div>
+
+              {/* Light Off */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Lightbulb className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">Turn Off Lights When Not in Use</Label>
+                </div>
+                <Switch
+                  checked={settings.lightOff}
+                  onCheckedChange={(v) => setSettings({ ...settings, lightOff: v })}
+                />
+              </div>
+
+              {/* AC Temperature */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Thermometer className="h-5 w-5 text-primary" />
+                  <Label className="text-base font-medium">AC Temperature</Label>
+                </div>
+                <Slider
+                  value={[settings.acTemp]}
+                  onValueChange={([v]) => setSettings({ ...settings, acTemp: v })}
+                  min={18} max={28} step={1}
+                  className="w-full"
+                />
+                <p className="text-sm text-muted-foreground text-center">{settings.acTemp}°C</p>
               </div>
 
               {/* Water Heater */}
