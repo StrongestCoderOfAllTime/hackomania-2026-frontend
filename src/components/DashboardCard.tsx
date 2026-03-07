@@ -11,6 +11,7 @@ interface DashboardCardProps {
   status?: "green" | "yellow" | "red";
   className?: string;
   children?: React.ReactNode;
+  color?: "green" | "yellow" | "red";
 }
 
 const statusStyles = {
@@ -28,6 +29,7 @@ export default function DashboardCard({
   status,
   className,
   children,
+  color
 }: DashboardCardProps) {
   return (
     <Card className={cn("shadow-card hover:shadow-card-hover transition-shadow", status && statusStyles[status], className)}>
@@ -39,7 +41,13 @@ export default function DashboardCard({
         <div className="text-3xl font-bold">{value}</div>
         {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
         {trend && (
-          <p className={cn("text-sm font-medium mt-2", trend.value < 0 ? "text-energy-green" : "text-energy-red")}>
+          <p className={cn(
+            "text-sm font-medium mt-2",
+            color === "green" ? "text-energy-green" :
+              color === "yellow" ? "text-energy-yellow" :
+                color === "red" ? "text-energy-red" :
+                  trend.value < 0 ? "text-energy-green" : "text-energy-red"
+          )}>
             {trend.value < 0 ? "↓" : "↑"} {Math.abs(trend.value)}% {trend.label}
           </p>
         )}

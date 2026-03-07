@@ -5,6 +5,7 @@ export interface DailyUsage {
   totalKwh: number;
   peakKwh: number;
   offPeakKwh: number;
+  streak: number;
   cost: number;
   status: "green" | "yellow" | "red";
 }
@@ -62,6 +63,9 @@ export function generateDailyUsage(days: number = 30): DailyUsage[] {
     const offPeakKwh = Math.round((totalKwh - peakKwh) * 100) / 100;
     const cost = Math.round(totalKwh * RATE_PER_KWH * 100) / 100;
 
+    // Add Daily Streak
+    const streak = 12;
+
     let status: "green" | "yellow" | "red" = "green";
     if (totalKwh > 22) status = "red";
     else if (totalKwh > 18) status = "yellow";
@@ -72,6 +76,7 @@ export function generateDailyUsage(days: number = 30): DailyUsage[] {
       peakKwh,
       offPeakKwh,
       cost,
+      streak,
       status,
     });
   }
@@ -186,6 +191,34 @@ export const weeklyChallenges = [
   { id: "2", title: "Run laundry only off-peak for 7 days", progress: 40, reward: "🌙 Night Owl Badge", daysLeft: 5 },
   { id: "3", title: "Keep AC at 25°C for a week", progress: 85, reward: "❄️ Cool Saver Badge", daysLeft: 1 },
 ];
+
+export function getUsageData(view: "weekly" | "monthly" | "yearly") {
+  const rand = seededRandom(123);
+  if (view === "weekly") {
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const data = days.map(d => ({
+      label: d,
+      kwh: Math.round((18 + rand() * 10) * 10) / 10,
+    }));
+    return { data, benchmark: 22 };
+  }
+  if (view === "monthly") {
+    const data = Array.from({ length: 30 }, (_, i) => ({
+      label: `${i + 1}`,
+      kwh: Math.round((16 + rand() * 12) * 10) / 10,
+    }));
+    return { data, benchmark: 20 };
+  }
+  if (view === "yearly") {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const data = months.map(m => ({
+      label: m,
+      kwh: Math.round((500 + rand() * 180) * 10) / 10,
+    }));
+    return { data, benchmark: 580 };
+  }
+  return { data: [], benchmark: 0 };
+}
 
 export const applianceList: ApplianceUsage[] = [
   { name: "Refrigerator", kwh: 75, percentage: 16, color: "hsl(220, 70%, 45%)", icon: "Refrigerator" },
