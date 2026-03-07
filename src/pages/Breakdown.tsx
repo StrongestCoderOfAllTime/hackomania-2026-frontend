@@ -3,7 +3,16 @@ import ApplianceBreakdown from "@/components/ApplianceBreakdown";
 import EnergyTipCard from "@/components/EnergyTipCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+} from "recharts";
 import { getApplianceBreakdown, getHourlyPattern, energyTips } from "@/lib/energyData";
 
 const appliances = getApplianceBreakdown();
@@ -37,17 +46,19 @@ export default function Breakdown() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={hourlyData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 15%, 90%)" />
-                      <XAxis dataKey="hour" tick={{ fontSize: 12 }} label={{ value: "Hour", position: "bottom", offset: -5 }} />
-                      <YAxis tick={{ fontSize: 12 }} unit=" kWh" />
+                      <XAxis dataKey="hour" tick={{ fontSize: 13 }} label={{ value: "Hour", position: "bottom", offset: -8 }} />
+                      <YAxis tick={{ fontSize: 11 }} unit=" kWh" />
                       <Tooltip
-                        contentStyle={{ borderRadius: 8, border: "1px solid hsl(220, 15%, 90%)" }}
+                        contentStyle={{ borderRadius: 8, border: "1px solid hsl(223, 86%, 11%)" }}
                         formatter={(value: number) => [`${value} kWh`, "Usage"]}
                         labelFormatter={(hour: number) => `${hour}:00`}
                       />
+                      <ReferenceLine y={0.5} stroke="hsl(220, 70%, 45%)" strokeDasharray="5 5" />
                       <Bar dataKey="kwh" fill="hsl(220, 70%, 45%)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+                <p className="text-xs text-muted-foreground mt-2">* Average Singaporean Household's Hourly Electrical Usage</p>
               </CardContent>
             </Card>
           </div>

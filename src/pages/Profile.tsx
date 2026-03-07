@@ -10,9 +10,27 @@ import { toast } from "sonner";
 
 export default function Profile() {
   const [profile, setProfile] = useState<UserProfile>(defaultProfile);
+  const [newAppliance, setNewAppliance] = useState("");
 
   const handleSave = () => {
     toast.success("Profile updated successfully! Your energy analysis will be recalculated.");
+  };
+
+  const addAppliance = () => {
+    if (newAppliance.trim() && !profile.majorAppliances.includes(newAppliance.trim())) {
+      setProfile({
+        ...profile,
+        majorAppliances: [...profile.majorAppliances, newAppliance.trim()],
+      });
+      setNewAppliance("");
+    }
+  };
+
+  const removeAppliance = (appliance: string) => {
+    setProfile({
+      ...profile,
+      majorAppliances: profile.majorAppliances.filter((a) => a !== appliance),
+    });
   };
 
   return (
@@ -75,30 +93,33 @@ export default function Profile() {
           <div className="space-y-2">
             <Label className="text-base flex items-center gap-2">
               <Home className="h-4 w-4" />
-              Major Appliances
+              Appliances
             </Label>
-            <div className="grid grid-cols-2 gap-2">
-              {["Refrigerator", "Washing Machine", "Dryer", "Water Heater", "Dishwasher", "Air Conditioner", "Electric Oven", "Microwave"].map((a) => {
-                const selected = profile.majorAppliances.includes(a);
-                return (
-                  <Button
-                    key={a}
-                    variant={selected ? "default" : "outline"}
-                    size="sm"
-                    className="justify-start text-sm"
-                    onClick={() => {
-                      setProfile({
-                        ...profile,
-                        majorAppliances: selected
-                          ? profile.majorAppliances.filter((x) => x !== a)
-                          : [...profile.majorAppliances, a],
-                      });
-                    }}
-                  >
-                    {a}
-                  </Button>
-                );
-              })}
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Add an appliance (e.g., Blender)"
+                  value={newAppliance}
+                  onChange={(e) => setNewAppliance(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && addAppliance()}
+                />
+                <Button onClick={addAppliance} size="sm">Add</Button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {profile.majorAppliances.map((a) => (
+                  <div key={a} className="flex items-center gap-1 bg-muted px-2 py-1 rounded">
+                    <span className="text-sm">{a}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeAppliance(a)}
+                      className="h-4 w-4 p-0"
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
