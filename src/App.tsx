@@ -10,7 +10,7 @@ import Simulator from "@/pages/Simulator";
 import Alerts from "@/pages/Alerts";
 import Coach from "@/pages/Coach";
 import Profile from "@/pages/Profile";
-import NotFound from "@/pages/NotFound";
+import Timer from "@/pages/Timer";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +28,7 @@ const App = () => (
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/coach" element={<Coach />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/timer" element={<Timer />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
