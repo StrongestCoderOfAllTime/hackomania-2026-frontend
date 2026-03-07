@@ -191,3 +191,31 @@ export const weeklyChallenges = [
   { id: "2", title: "Run laundry only off-peak for 7 days", progress: 40, reward: "🌙 Night Owl Badge", daysLeft: 5 },
   { id: "3", title: "Keep AC at 25°C for a week", progress: 85, reward: "❄️ Cool Saver Badge", daysLeft: 1 },
 ];
+
+export function getUsageData(view: "weekly" | "monthly" | "yearly") {
+  const rand = seededRandom(123);
+  if (view === "weekly") {
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const data = days.map(d => ({
+      label: d,
+      kwh: Math.round((18 + rand() * 10) * 10) / 10,
+    }));
+    return { data, benchmark: 22 };
+  }
+  if (view === "monthly") {
+    const data = Array.from({ length: 30 }, (_, i) => ({
+      label: `${i + 1}`,
+      kwh: Math.round((16 + rand() * 12) * 10) / 10,
+    }));
+    return { data, benchmark: 20 };
+  }
+  if (view === "yearly") {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const data = months.map(m => ({
+      label: m,
+      kwh: Math.round((500 + rand() * 180) * 10) / 10,
+    }));
+    return { data, benchmark: 580 };
+  }
+  return { data: [], benchmark: 0 };
+}
