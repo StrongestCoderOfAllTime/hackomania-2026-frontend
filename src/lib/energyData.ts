@@ -84,17 +84,6 @@ export function generateDailyUsage(days: number = 30): DailyUsage[] {
   return data;
 }
 
-export function getApplianceBreakdown(): ApplianceUsage[] {
-  return [
-    { name: "Air Conditioner", kwh: 180, percentage: 38, color: "hsl(220, 70%, 45%)", icon: "Snowflake" },
-    { name: "Water Heater", kwh: 95, percentage: 20, color: "hsl(0, 72%, 51%)", icon: "Flame" },
-    { name: "Refrigerator", kwh: 75, percentage: 16, color: "hsl(175, 60%, 42%)", icon: "Refrigerator" },
-    { name: "Washing Machine", kwh: 55, percentage: 12, color: "hsl(45, 93%, 47%)", icon: "WashingMachine" },
-    { name: "Lighting", kwh: 35, percentage: 7, color: "hsl(280, 60%, 50%)", icon: "Lightbulb" },
-    { name: "Others", kwh: 33, percentage: 7, color: "hsl(220, 15%, 60%)", icon: "Plug" },
-  ];
-}
-
 export function getAlerts(): Alert[] {
   return [
     {

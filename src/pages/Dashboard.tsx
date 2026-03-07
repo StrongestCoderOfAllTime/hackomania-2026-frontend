@@ -5,7 +5,7 @@ import ApplianceBreakdown from "@/components/ApplianceBreakdown";
 import EnergyTipCard from "@/components/EnergyTipCard";
 import EnergyScoreGauge from "@/components/EnergyScoreGauge";
 import {
-  generateDailyUsage, getApplianceBreakdown, getMonthlyBill,
+  generateDailyUsage, applianceList, getMonthlyBill,
   getEnergyScore, energyTips, getNeighbourhoodComparison,
 } from "@/lib/energyData";
 import { DollarSign, Zap, Users, Flame, ThumbsUp } from "lucide-react";
@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 
 const usageData = generateDailyUsage(30);
 const bill = getMonthlyBill(usageData);
-const appliances = getApplianceBreakdown();
 const score = getEnergyScore();
 const neighbourhood = getNeighbourhoodComparison();
 
@@ -82,7 +81,7 @@ export default function Dashboard() {
 
               <TabsContent value="appliance">
                 <div className="">
-                  <ApplianceBreakdown data={appliances} />
+                  <ApplianceBreakdown data={applianceList} />
                 </div>
               </TabsContent>
               <TabsContent value="household">
