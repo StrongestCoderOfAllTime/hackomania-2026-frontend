@@ -213,6 +213,17 @@ export function getUsageData(view: "weekly" | "monthly" | "yearly") {
   return { data: [], benchmark: 0 };
 }
 
+export function getApplianceData(view: "weekly" | "monthly" | "yearly"): ApplianceUsage[] {
+  const multiplier = view === "weekly" ? 0.25 : view === "yearly" ? 12 : 1;
+  return applianceList.map(app => {
+    const kwh = Math.round(app.kwh * multiplier * 10) / 10;
+    return {
+      ...app,
+      kwh,
+    };
+  });
+}
+
 export const applianceList: ApplianceUsage[] = [
   { name: "Refrigerator", kwh: 75, percentage: 16, color: "hsl(220, 70%, 45%)", icon: "Refrigerator" },
   { name: "Air Conditioner", kwh: 180, percentage: 38, color: "hsl(0, 72%, 51%)", icon: "Snowflake" },

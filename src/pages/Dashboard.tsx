@@ -81,7 +81,7 @@ export default function Dashboard() {
 
               <TabsContent value="appliance">
                 <div className="">
-                  <ApplianceBreakdown data={applianceList} />
+                  <ApplianceBreakdown />
                 </div>
               </TabsContent>
               <TabsContent value="household">

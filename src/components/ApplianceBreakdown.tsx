@@ -1,8 +1,8 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { useState } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ApplianceUsage } from "@/lib/energyData";
-import { Snowflake, Flame, Refrigerator, WashingMachine, Lightbulb, Plug, ListOrdered, Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { getApplianceData, type ApplianceUsage } from "@/lib/energyData";
+import { Snowflake, Flame, Refrigerator, WashingMachine, Lightbulb, Plug, ListOrdered, Zap, Monitor, Laptop, Microwave, Wind, Trash2, Scissors } from "lucide-react";
 
 const IconMap: Record<string, any> = {
   Snowflake: Snowflake,
@@ -11,11 +11,14 @@ const IconMap: Record<string, any> = {
   WashingMachine: WashingMachine,
   Lightbulb: Lightbulb,
   Plug: Plug,
+  Monitor: Monitor,
+  Laptop: Laptop,
+  Microwave: Microwave,
+  Fan: Wind,
+  Vacuum: Trash2,
+  Toaster: Scissors,
+  HairDryer: Snowflake, // Using Snowflake as placeholder if not found
 };
-
-interface ApplianceBreakdownProps {
-  data: ApplianceUsage[];
-}
 
 function CustomTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
@@ -28,15 +31,31 @@ function CustomTooltip({ active, payload }: any) {
   );
 }
 
-export default function ApplianceBreakdown({ data }: ApplianceBreakdownProps) {
+export default function ApplianceBreakdown() {
+  const [view, setView] = useState<"weekly" | "monthly" | "yearly">("weekly");
+  const data = getApplianceData(view);
   const topThree = [...data].sort((a, b) => b.kwh - a.kwh).slice(0, 3);
 
   return (
     <Card className="border-0">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
           Appliance Breakdown
         </CardTitle>
+        <div className="flex bg-muted rounded-lg p-1">
+          {(["weekly", "monthly", "yearly"] as const).map((v) => (
+            <button
+              key={v}
+              onClick={() => setView(v)}
+              className={`px-3 py-1 text-xs rounded-md transition-all ${view === v
+                ? "bg-background shadow-sm font-medium"
+                : "text-muted-foreground hover:text-foreground"
+                }`}
+            >
+              {v.charAt(0).toUpperCase() + v.slice(1)}
+            </button>
+          ))}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">

@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Thermometer, Clock, Plug, Flame, ArrowRight, Zap, DollarSign, Leaf, Lightbulb } from "lucide-react";
-import { getApplianceBreakdown, getHourlyPattern, energyTips } from "@/lib/energyData";
+import { getHourlyPattern, energyTips } from "@/lib/energyData";
 
 interface SimSettings {
   acTemp: number;
