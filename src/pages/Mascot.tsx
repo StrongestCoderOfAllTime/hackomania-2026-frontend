@@ -14,7 +14,8 @@ import {
   Ticket,
   Sparkles,
   RefreshCcw,
-  BicepsFlexed
+  BicepsFlexed,
+  Star
 } from "lucide-react";
 import { experienceLevel, experiencePoints } from "@/lib/energyData";
 import { toast } from "sonner";
@@ -22,11 +23,44 @@ import { cn } from "@/lib/utils";
 
 import ollieImage from "@/assests/ollio-removebg-preview.png";
 
+const REWARDS = [
+  {
+    title: "$5 SP Bill Rebate",
+    description: "Direct deduction from your next utility bill. Level 10 requirement.",
+    points: 1500,
+    icon: Ticket,
+    color: "bg-blue-100 text-blue-600"
+  },
+  {
+    title: "$10 Grab Voucher",
+    description: "Valid for GrabFood or GrabRide. Digital code delivered instantly.",
+    points: 2500,
+    icon: Gift,
+    color: "bg-emerald-100 text-emerald-600"
+  },
+  {
+    title: "Eco Coffee Treat",
+    description: "Redeem for a small coffee at any partner green café outlet.",
+    points: 800,
+    icon: Utensils,
+    color: "bg-orange-100 text-orange-600"
+  },
+  {
+    title: "Smart Plug (v2)",
+    description: "Automate your devices and save more energy. Shipped to home.",
+    points: 5000,
+    icon: Zap,
+    color: "bg-purple-100 text-purple-600"
+  }
+];
+
+
 export default function Mascot() {
   const [hunger, setHunger] = useState(65);
   const [happiness, setHappiness] = useState(80);
   const [energy, setEnergy] = useState(45);
   const [isFeeding, setIsFeeding] = useState(false);
+  const [points, setPoints] = useState(experiencePoints);
 
   const handleFeed = () => {
     if (hunger >= 100) {
@@ -54,6 +88,18 @@ export default function Mascot() {
     toast.success("Ollie is having fun!", {
       icon: <Smile className="h-4 w-4" />
     });
+  };
+
+  const handleClaimReward = (reward: typeof REWARDS[0]) => {
+    if (points >= reward.points) {
+      setPoints(prev => prev - reward.points);
+      toast.success(`Succesfully claimed ${reward.title}!`, {
+        description: "Check your email/profile for the reward details.",
+        icon: <reward.icon className="h-4 w-4 text-energy-green" />
+      });
+    } else {
+      toast.error("Not enough points!");
+    }
   };
 
   return (
@@ -210,6 +256,57 @@ export default function Mascot() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </div>
+
+      {/* Reward Shop Section */}
+      <div className="pt-2">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold">Points Rewards Shop</h2>
+            <p className="text-sm text-muted-foreground">Redeem your hard-earned points for exclusive vouchers and rebates</p>
+          </div>
+          <div className="bg-energy-green/10 px-4 py-2 rounded-2xl border border-energy-green/20 flex items-center gap-2">
+            <Star className="h-4 w-4 text-energy-green fill-energy-green" />
+            <span className="font-bold text-energy-green">{points.toLocaleString()} Points Available</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {REWARDS.map((reward, index) => (
+            <Card key={index} className="shadow-smooth hover:shadow-card transition-all border-0 group">
+              <CardContent className="p-5 flex flex-col h-full">
+                <div className={cn(
+                  "w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-colors",
+                  reward.color
+                )}>
+                  <reward.icon className="h-6 w-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg leading-tight mb-1">{reward.title}</h3>
+                  <p className="text-xs text-muted-foreground mb-4 line-clamp-2">{reward.description}</p>
+                </div>
+                <div className="flex items-center justify-between mt-auto">
+                  <div className="flex items-center gap-1.5">
+                    <Star className="h-3.5 w-3.5 text-energy-green fill-energy-green" />
+                    <span className="text-sm font-bold">{reward.points.toLocaleString()}</span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant={points >= reward.points ? "default" : "secondary"}
+                    disabled={points < reward.points}
+                    onClick={() => handleClaimReward(reward)}
+                    className={cn(
+                      "h-8 px-4 text-xs font-bold transition-all",
+                      points >= reward.points ? "bg-energy-green hover:bg-energy-green/90 text-white shadow-md hover:shadow-lg" : "bg-slate-100 text-slate-400"
+                    )}
+                  >
+                    Claim
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
