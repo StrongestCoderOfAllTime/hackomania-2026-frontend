@@ -12,7 +12,6 @@ const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "My Mascot", url: "/mascot", icon: Sparkles },
   { title: "Energy Twin", url: "/simulator", icon: Sliders },
-  { title: "Smart Alerts", url: "/alerts", icon: Bell },
   { title: "Energy Coach", url: "/coach", icon: Bot },
   { title: "Challenges", url: "/challenge", icon: BicepsFlexed },
   { title: "Profile", url: "/profile", icon: User },
