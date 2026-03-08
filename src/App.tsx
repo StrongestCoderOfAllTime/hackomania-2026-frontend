@@ -10,6 +10,7 @@ import Alerts from "@/pages/Alerts";
 import Coach from "@/pages/Coach";
 import Profile from "@/pages/Profile";
 import Challenge from "@/pages/Challenge";
+import Mascot from "@/pages/Mascot";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/coach" element={<Coach />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/challenge" element={<Challenge />} />
+            <Route path="/mascot" element={<Mascot />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
